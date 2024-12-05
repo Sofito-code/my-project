@@ -2,11 +2,15 @@
 import { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 
-// Función para formatear la fecha
 function formatDate(date: Date): string {
-    const hours = date.getHours().toString().padStart(2, '0')
-    const minutes = date.getMinutes().toString().padStart(2, '0')
-    return `${hours}:${minutes}`
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Los meses comienzan en 0
+  const year = date.getFullYear() % 100;
+
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
 type DataItem = {
@@ -41,6 +45,8 @@ function VariableChart({ variable }: { variable: typeof variables[0] }) {
             setData(result);
         }
         fetchData();
+        const intervalId = setInterval(fetchData, 3000);
+        return () => clearInterval(intervalId);
     }, []);
 
     useEffect(() => {
@@ -66,6 +72,9 @@ function VariableChart({ variable }: { variable: typeof variables[0] }) {
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
+                        animation: {
+                          duration: 0
+                        },
                         plugins: {
                             legend: {
                                 position: 'top',
@@ -102,7 +111,6 @@ function VariableChart({ variable }: { variable: typeof variables[0] }) {
         <div className="w-full bg-white rounded-lg shadow-md">
             <div className="p-6">
                 <h2 className="text-2xl font-bold mb-2">{variable.name}</h2>
-                <p className="text-gray-600 mb-4">Valores en el tiempo</p>
                 <div className="h-[400px]">
                     <canvas ref={chartRef}></canvas>
                 </div>
@@ -115,6 +123,7 @@ export default function Dashboard() {
     return (
         <div className="container mx-auto p-6">
             <h1 className="text-3xl font-bold mb-6 text-center">Dashboard de Variables del Carro a Control remoto</h1>
+            <p className="text-gray-600 mb-4 text-center">Valores en el tiempo</p>
             <div className="space-y-6">
                 {variables.map((variable) => (
                     <VariableChart key={variable.key} variable={variable} />

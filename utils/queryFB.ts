@@ -1,11 +1,10 @@
-import { collection, getDocs, DocumentData } from "firebase/firestore";
+import { collection, query, orderBy, limit, getDocs, DocumentData } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
-export async function getDataTempHum<T = DocumentData>(collectionName: string): Promise<T[]> {
+export async function getData<T = DocumentData>(collectionName: string): Promise<T[]> {
   const colRef = collection(db, collectionName);
-  const snapshot = await getDocs(colRef);
-
-  // Convierte los datos a un array tipado
+  const q = query(colRef, orderBy("timestamp", "desc"), limit(10));
+  const snapshot = await getDocs(q);
   const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as T));
   return data;
 }

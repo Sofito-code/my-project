@@ -1,6 +1,5 @@
-// pages/api/data.ts
 import { NextApiRequest, NextApiResponse } from "next";
-import { getDataTempHum } from "../../utils/queryFB";
+import { getData } from "../../utils/queryFB";
 
 type DataItem = {
   id: number;
@@ -18,7 +17,7 @@ export default async function handler(
   res: NextApiResponse<DataItem[] | { error: string }>
 ) {
   try {
-    const data = await getDataTempHum<DataItem>("sensors");
+    const data = await getData<DataItem>("sensors");
     res.status(200).json(data);
   } catch (error) {
     console.error(error);
