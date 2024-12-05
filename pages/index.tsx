@@ -84,7 +84,7 @@ function VariableChart({ variable }: { variable: typeof variables[0] }) {
                             x: {
                                 title: {
                                     display: true,
-                                    text: 'Tiempo'
+                                    text: 'Fecha y hora'
                                 }
                             },
                             y: {
