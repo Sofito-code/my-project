@@ -4,7 +4,13 @@ import { getDataTempHum } from "../../utils/queryFB";
 
 type DataItem = {
   id: number;
-  temp: string; // Cambia esto según tu estructura de datos
+  temp: string;
+  ax: number;
+  ay: number;
+  az: number;
+  servo: number;
+  ultra: number;
+  timestamp: string;
 };
 
 export default async function handler(

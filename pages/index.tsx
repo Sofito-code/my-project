@@ -4,6 +4,12 @@ import { useEffect, useState } from "react";
 type DataItem = {
   id: number;
   temp: string;
+  ax: number;
+  ay: number;
+  az: number;
+  servo: number;
+  ultra: number;
+  timestamp: string;
 };
 
 export default function Home() {
